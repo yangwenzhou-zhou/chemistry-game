@@ -79,6 +79,20 @@
     border-radius: 20px;
     font-weight: 500;
   }
+  .back-home-btn {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    margin-left: 8px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    transition: all 0.2s;
+    display: none;
+  }
+  .back-home-btn:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.10);
+  }
   .stats {
     display: flex;
     gap: 18px;
@@ -1090,6 +1104,7 @@
     <div class="title">
       ⚗️ 化学配对
       <span class="badge" id="levelBadge">基础</span>
+      <span class="back-home-btn" id="backHomeBtn" onclick="backToHome()" title="返回主界面">← 返回</span>
     </div>
     <div class="stats">
       <span>✅ <span class="num" id="scoreNum">0</span></span>
@@ -2078,6 +2093,7 @@ function startGame(mode) {
   document.querySelector('.stats').style.display = '';
   document.getElementById('comboDisplay').style.display = '';
   document.getElementById('comboDisplay').className = 'combo-display';
+  document.getElementById('backHomeBtn').style.display = 'inline';
   document.getElementById('homeScreen').classList.add('hidden');
   gameArea.classList.remove('hidden');
   completeScreen.classList.remove('show');
@@ -2089,6 +2105,26 @@ function startGame(mode) {
 function homeStartGame(mode) {
   document.getElementById('heroWelcome').textContent = '加油，' + (getCurrentUser() || '同学') + '！';
   startGame(mode);
+}
+
+function backToHome() {
+  if (state.answered && state.currentIndex < state.total - 1) {
+    if (!confirm('确定要返回主界面吗？当前进度将丢失。')) return;
+  }
+  document.getElementById('backHomeBtn').style.display = 'none';
+  gameArea.classList.add('hidden');
+  completeScreen.classList.remove('show');
+  completeScreen.classList.add('hidden');
+  document.getElementById('homeScreen').classList.remove('hidden');
+  levelBadge.style.display = 'none';
+  document.querySelector('.stats').style.display = 'none';
+  document.getElementById('comboDisplay').style.display = 'none';
+  state.currentIndex = 0;
+  state.score = 0;
+  state.answered = false;
+  progressBar.style.width = '0%';
+  scoreNum.textContent = '0';
+  loadHomeStats();
 }
 
 function renderQuestion() {
@@ -2263,6 +2299,7 @@ function resetGame() {
   completeScreen.classList.add('hidden');
   gameArea.classList.add('hidden');
   document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('backHomeBtn').style.display = 'none';
   levelBadge.style.display = 'none';
   document.querySelector('.stats').style.display = 'none';
   document.getElementById('comboDisplay').style.display = 'none';
@@ -2664,6 +2701,7 @@ window.addEventListener('DOMContentLoaded', () => {
     showUserBadge(saved);
     document.getElementById('loginOverlay').classList.add('hidden');
     document.getElementById('homeScreen').classList.remove('hidden');
+    document.getElementById('backHomeBtn').style.display = 'none';
     document.getElementById('levelBadge').style.display = 'none';
     document.querySelector('.stats').style.display = 'none';
     document.getElementById('comboDisplay').style.display = 'none';
@@ -2793,10 +2831,10 @@ function closeLogin() {
   document.getElementById('loginOverlay').classList.add('hidden');
   showUserBadge(_currentUser);
   document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('backHomeBtn').style.display = 'none';
   document.getElementById('levelBadge').style.display = 'none';
   document.querySelector('.stats').style.display = 'none';
   document.getElementById('comboDisplay').style.display = 'none';
-  document.querySelector('.home-screen').classList.remove('hidden');
   loadHomeStats();
 }
 
