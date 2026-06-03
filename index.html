@@ -943,6 +943,122 @@
     margin-left: 2px;
   }
   .user-badge .logout-link:hover { color: #ef5350; }
+
+  /* -------- 主界面 -------- */
+  .home-screen {
+    text-align: center;
+    padding: 10px 0 6px;
+  }
+  .home-screen.hidden { display: none; }
+  .home-hero {
+    margin-bottom: 24px;
+  }
+  .home-hero .hero-icon {
+    font-size: 56px;
+    margin-bottom: 6px;
+    display: block;
+  }
+  .home-hero h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 2px;
+  }
+  .home-hero p {
+    font-size: 14px;
+    color: rgba(255,255,255,0.45);
+    margin-top: 4px;
+  }
+  .home-hero .hero-welcome {
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-top: 2px;
+  }
+  .home-modes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  @media (max-width: 420px) {
+    .home-modes { grid-template-columns: 1fr; }
+  }
+  .home-card {
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 18px;
+    padding: 20px 14px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    text-align: center;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .home-card:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.20);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+  }
+  .home-card:active { transform: scale(0.97); }
+  .home-card .hc-icon { font-size: 36px; display: block; margin-bottom: 6px; }
+  .home-card .hc-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .home-card .hc-desc {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    margin-top: 3px;
+    line-height: 1.4;
+  }
+  .home-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .home-actions button {
+    padding: 10px 24px;
+    border-radius: 30px;
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+  .home-actions button:hover {
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-1px);
+  }
+  .home-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+    padding: 14px 0 4px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .home-stats .hs-item {
+    text-align: center;
+  }
+  .home-stats .hs-num {
+    font-size: 20px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #f7971e, #ffd200);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .home-stats .hs-label {
+    font-size: 12px;
+    color: rgba(255,255,255,0.35);
+    margin-top: 2px;
+  }
 </style>
 </head>
 <body>
@@ -986,17 +1102,44 @@
     </div>
   </div>
 
-  <!-- 模式选择 -->
-  <div class="mode-select" id="modeSelect">
-    <div class="mode-label">选择练习模式</div>
-    <div class="mode-btns">
-      <button data-mode="formula" class="active">🧪 化学式配对</button>
-      <button data-mode="property">🔥 物质性质</button>
-      <button data-mode="equation">⚡ 方程式判断</button>
-	      <button data-mode="process">🏭 工业流程</button>
+  <!-- 主界面 -->
+  <div class="home-screen" id="homeScreen">
+    <div class="home-hero">
+      <span class="hero-icon">⚗️</span>
+      <h1>化学配对</h1>
+      <p>初中化学知识闯关练习</p>
+      <div class="hero-welcome" id="heroWelcome"></div>
     </div>
-    <div class="kb-btn-wrap">
+    <div class="home-modes">
+      <div class="home-card" onclick="homeStartGame('formula')">
+        <span class="hc-icon">🧪</span>
+        <div class="hc-title">化学式配对</div>
+        <div class="hc-desc">物质名称与化学式的匹配</div>
+      </div>
+      <div class="home-card" onclick="homeStartGame('property')">
+        <span class="hc-icon">🔥</span>
+        <div class="hc-title">物质性质</div>
+        <div class="hc-desc">物质的物理和化学性质</div>
+      </div>
+      <div class="home-card" onclick="homeStartGame('equation')">
+        <span class="hc-icon">⚡</span>
+        <div class="hc-title">方程式判断</div>
+        <div class="hc-desc">化学方程式的正误判断</div>
+      </div>
+      <div class="home-card" onclick="homeStartGame('process')">
+        <span class="hc-icon">🏭</span>
+        <div class="hc-title">工业流程</div>
+        <div class="hc-desc">工业生产中的化学原理</div>
+      </div>
+    </div>
+    <div class="home-actions">
       <button onclick="openKnowledge()">📚 知识背景</button>
+      <button onclick="openLeaderboard()">🏆 排行榜</button>
+    </div>
+    <div class="home-stats" id="homeStats">
+      <div class="hs-item"><div class="hs-num" id="hsTotal">0</div><div class="hs-label">总答题</div></div>
+      <div class="hs-item"><div class="hs-num" id="hsBest">-</div><div class="hs-label">最佳正确率</div></div>
+      <div class="hs-item"><div class="hs-num" id="hsCombo">0</div><div class="hs-label">最高连击</div></div>
     </div>
   </div>
 
@@ -1706,7 +1849,6 @@ const totalNum = $('totalNum');
 const progressBar = $('progressBar');
 const levelBadge = $('levelBadge');
 const gameArea = $('gameArea');
-const modeSelect = $('modeSelect');
 const completeScreen = $('completeScreen');
 const finalScore = $('finalScore');
 const completeMsg = $('completeMsg');
@@ -1923,6 +2065,8 @@ function startGame(mode) {
   state.mode = mode;
   state.currentIndex = 0;
   state.score = 0;
+  state.combo = 0;
+  state.maxCombo = 0;
   state.answered = false;
 
   const bank = QUESTION_BANK[mode];
@@ -1930,12 +2074,21 @@ function startGame(mode) {
   state.total = state.questions.length;
 
   levelBadge.textContent = MODE_TAGS[mode];
-  modeSelect.classList.add('hidden');
+  levelBadge.style.display = '';
+  document.querySelector('.stats').style.display = '';
+  document.getElementById('comboDisplay').style.display = '';
+  document.getElementById('comboDisplay').className = 'combo-display';
+  document.getElementById('homeScreen').classList.add('hidden');
   gameArea.classList.remove('hidden');
   completeScreen.classList.remove('show');
   completeScreen.classList.add('hidden');
 
   renderQuestion();
+}
+
+function homeStartGame(mode) {
+  document.getElementById('heroWelcome').textContent = '加油，' + (getCurrentUser() || '同学') + '！';
+  startGame(mode);
 }
 
 function renderQuestion() {
@@ -2109,12 +2262,16 @@ function resetGame() {
   completeScreen.classList.remove('show');
   completeScreen.classList.add('hidden');
   gameArea.classList.add('hidden');
-  modeSelect.classList.remove('hidden');
+  document.getElementById('homeScreen').classList.remove('hidden');
+  levelBadge.style.display = 'none';
+  document.querySelector('.stats').style.display = 'none';
+  document.getElementById('comboDisplay').style.display = 'none';
   state.currentIndex = 0;
   state.score = 0;
   state.answered = false;
   progressBar.style.width = '0%';
   scoreNum.textContent = '0';
+  loadHomeStats();
 }
 
 // ============================================================
@@ -2484,17 +2641,6 @@ knowledgeOverlay.addEventListener('click', (e) => {
 });
 
 // ============================================================
-//  模式切换
-// ============================================================
-document.querySelectorAll('.mode-btns button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.mode-btns button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    startGame(btn.dataset.mode);
-  });
-});
-
-// ============================================================
 //  键盘快捷键
 // ============================================================
 document.addEventListener('keydown', (e) => {
@@ -2517,9 +2663,12 @@ window.addEventListener('DOMContentLoaded', () => {
     _currentUser = saved;
     showUserBadge(saved);
     document.getElementById('loginOverlay').classList.add('hidden');
-    startGame('formula');
+    document.getElementById('homeScreen').classList.remove('hidden');
+    document.getElementById('levelBadge').style.display = 'none';
+    document.querySelector('.stats').style.display = 'none';
+    document.getElementById('comboDisplay').style.display = 'none';
+    loadHomeStats();
   } else {
-    // 显示登录窗口
     document.getElementById('loginOverlay').classList.remove('hidden');
   }
 });
@@ -2643,7 +2792,12 @@ function handleLogin() {
 function closeLogin() {
   document.getElementById('loginOverlay').classList.add('hidden');
   showUserBadge(_currentUser);
-  startGame('formula');
+  document.getElementById('homeScreen').classList.remove('hidden');
+  document.getElementById('levelBadge').style.display = 'none';
+  document.querySelector('.stats').style.display = 'none';
+  document.getElementById('comboDisplay').style.display = 'none';
+  document.querySelector('.home-screen').classList.remove('hidden');
+  loadHomeStats();
 }
 
 function logoutUser() {
@@ -2652,6 +2806,7 @@ function logoutUser() {
   setSession(null);
   document.getElementById('userBadge').style.display = 'none';
   resetGame();
+  document.getElementById('homeScreen').classList.add('hidden');
   document.getElementById('loginOverlay').classList.remove('hidden');
   document.getElementById('loginUser').value = '';
   document.getElementById('loginPass').value = '';
@@ -2669,6 +2824,26 @@ document.addEventListener('keydown', (e) => {
     handleLogin();
   }
 });
+
+// ============================================================
+//  主界面统计
+// ============================================================
+function loadHomeStats() {
+  const user = getCurrentUser();
+  if (!user) return;
+  const welcome = document.getElementById('heroWelcome');
+  welcome.textContent = '欢迎回来，' + user + '！';
+  try {
+    const scores = JSON.parse(localStorage.getItem('chemGameLB') || '[]');
+    const myScores = scores.filter(s => s.user === user);
+    const totalQ = myScores.reduce((sum, s) => sum + s.total, 0);
+    const bestPct = myScores.length > 0 ? Math.max(...myScores.map(s => s.pct)) : 0;
+    const bestCombo = myScores.length > 0 ? Math.max(...myScores.map(s => s.combo || 0)) : 0;
+    document.getElementById('hsTotal').textContent = totalQ;
+    document.getElementById('hsBest').textContent = bestPct > 0 ? bestPct + '%' : '-';
+    document.getElementById('hsCombo').textContent = bestCombo;
+  } catch (e) {}
+}
 
 // ============================================================
 //  排行榜
